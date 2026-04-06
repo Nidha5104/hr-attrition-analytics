@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 
+df = pd.read_csv("dataset.csv")
 st.title("🤖 Attrition Risk Predictor")
 
 model = joblib.load("attrition_model.pkl")
@@ -12,34 +13,11 @@ overtime = st.selectbox("OverTime", ["No", "Yes"])
 overtime = 1 if overtime == "Yes" else 0
 
 if st.button("Predict"):
+input_data = df.iloc[[0]].copy()
 
-    input_data = pd.DataFrame([{
-        'Age': age,
-        'DailyRate': 500,
-        'DistanceFromHome': 5,
-        'Education': 3,
-        'EnvironmentSatisfaction': 3,
-        'Gender': 1,
-        'HourlyRate': 60,
-        'JobInvolvement': 3,
-        'JobLevel': 2,
-        'JobSatisfaction': 3,
-        'MonthlyIncome': income,
-        'MonthlyRate': 15000,
-        'NumCompaniesWorked': 2,
-        'OverTime': overtime,
-        'PercentSalaryHike': 13,
-        'PerformanceRating': 3,
-        'RelationshipSatisfaction': 3,
-        'StockOptionLevel': 1,
-        'TotalWorkingYears': 8,
-        'TrainingTimesLastYear': 2,
-        'WorkLifeBalance': 3,
-        'YearsAtCompany': 5,
-        'YearsInCurrentRole': 3,
-        'YearsSinceLastPromotion': 1,
-        'YearsWithCurrManager': 3
-    }])
+input_data['Age'] = age
+input_data['MonthlyIncome'] = income
+input_data['OverTime'] = overtime
 
     prob = model.predict_proba(input_data)[0][1]
 
