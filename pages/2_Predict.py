@@ -7,9 +7,9 @@ st.title("🤖 Attrition Risk Predictor")
 # Load model
 model = joblib.load("attrition_model.pkl")
 
-st.markdown("### Enter Employee Details")
-
 # Inputs
+st.subheader("Enter Employee Details")
+
 age = st.slider("Age", 18, 60, 30)
 income = st.number_input("Monthly Income", 1000, 20000, 5000)
 distance = st.slider("Distance From Home", 1, 30, 5)
@@ -21,7 +21,7 @@ experience = st.slider("Total Working Years", 0, 40, 8)
 
 if st.button("Predict Attrition Risk"):
 
-    input_data = pd.DataFrame([{
+    input_dict = {
         'Age': age,
         'DailyRate': 500,
         'DistanceFromHome': distance,
@@ -47,13 +47,17 @@ if st.button("Predict Attrition Risk"):
         'YearsInCurrentRole': 3,
         'YearsSinceLastPromotion': 1,
         'YearsWithCurrManager': 3
-    }])
+    }
 
+    # 🔥 CRITICAL FIX (this solves your error)
+    input_data = pd.DataFrame([input_dict])[model.feature_names_in_]
+
+    # Prediction
     prob = model.predict_proba(input_data)[0][1]
 
     st.success(f"🔥 Attrition Risk: {prob*100:.2f}%")
 
     if prob > 0.5:
-        st.error("⚠ High Risk Employee — Retention Action Needed")
+        st.error("⚠ High Risk Employee")
     else:
         st.info("✅ Low Risk Employee")
