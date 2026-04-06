@@ -7,7 +7,7 @@ st.title("📊 HR Attrition Dashboard")
 df = pd.read_csv("dataset.csv")
 
 # KPI
-attrition_rate = df['Attrition'].value_counts(normalize=True)[1] * 100
+attrition_rate = df['Attrition'].value_counts(normalize=True).get('Yes', 0) * 100
 avg_income = df['MonthlyIncome'].mean()
 
 col1, col2 = st.columns(2)
