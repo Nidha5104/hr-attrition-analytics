@@ -7,7 +7,7 @@ st.set_page_config(page_title="HR Dashboard", layout="wide")
 st.title("📊 HR Attrition Dashboard")
 
 # Load data
-df = pd.read_csv("WA_Fn-UseC_-HR-Employee-Attrition.csv")
+df = pd.read_csv("dataset.csv")
 
 # Convert target
 df['Attrition'] = df['Attrition'].map({'Yes': 1, 'No': 0})
